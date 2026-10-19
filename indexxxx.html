@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Thiệp 20/10 Gửi Mẹ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&family=Dancing+Script:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#f7e9ec;--bg2:#e8dcf4;--ink:#2b1b22;--muted:#7a6169;--rose:#c2385a;--paper:#fff8f9;
+  --f-body:"Be Vietnam Pro",system-ui,sans-serif;
+  --f-hand:"Dancing Script","Segoe Script",cursive;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{min-height:100vh;min-height:100dvh;background:linear-gradient(160deg,var(--bg),var(--bg2));color:var(--ink);font-family:var(--f-body);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 16px;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:-25%;z-index:0;pointer-events:none;background:radial-gradient(circle at 30% 30%,rgba(255,196,212,.75),transparent 42%),radial-gradient(circle at 72% 68%,rgba(222,204,250,.75),transparent 42%),radial-gradient(circle at 60% 20%,rgba(255,226,200,.6),transparent 35%);animation:glow 26s ease-in-out infinite alternate}
+@keyframes glow{to{transform:translate(7%,5%) rotate(8deg)}}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+.top{position:relative;z-index:1;text-align:center;margin-bottom:90px}
+.top .d{font-size:12px;letter-spacing:.3em;font-weight:700;color:var(--rose)}
+.top h1{margin:4px 0 0;font-family:var(--f-hand);font-size:clamp(32px,9vw,46px);line-height:1.1;color:#8a2442}
+
+/* phong bì */
+.env{position:relative;z-index:1;width:min(400px,86vw);aspect-ratio:3/2;cursor:pointer;border:0;padding:0;background:none;animation:nudge 2.6s ease-in-out infinite}
+.env.open{animation:none;cursor:default}
+.env:focus-visible{outline:3px solid var(--rose);outline-offset:6px;border-radius:10px}
+@keyframes nudge{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-3deg)}90%{transform:rotate(3deg)}95%{transform:rotate(-1.5deg)}}
+.env-back{position:absolute;inset:0;background:linear-gradient(160deg,#f2c3cf,#e6a9b9);border-radius:8px;box-shadow:0 18px 40px rgba(194,56,90,.25)}
+.letter{position:absolute;left:6%;right:6%;top:6%;height:88%;background:var(--paper);border-radius:6px;z-index:2;display:grid;justify-items:center;padding-top:9%;font-family:var(--f-hand);font-size:clamp(20px,5vw,28px);color:#a3304d;box-shadow:0 -4px 12px rgba(120,30,60,.12);transition:transform 1.1s cubic-bezier(.22,1,.36,1) .5s}
+.env-front{position:absolute;inset:0;z-index:3;background:linear-gradient(0deg,#f6d3dc,#fff0f3);border-radius:8px;clip-path:polygon(0 0,50% 52%,100% 0,100% 100%,0 100%)}
+.env-front::after{content:"Hà Nội · 20.10";position:absolute;right:6%;bottom:8%;font:700 10px var(--f-body);letter-spacing:.12em;color:rgba(194,56,90,.55)}
+.flap{position:absolute;left:0;right:0;top:0;height:58%;background:linear-gradient(180deg,#f7d6de,#eab3c1);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transform:perspective(900px) rotateX(0);transition:transform .7s cubic-bezier(.45,0,.2,1) .1s,z-index 0s .45s;z-index:4}
+.seal{position:absolute;left:50%;top:52%;width:42px;height:42px;margin:-21px 0 0 -21px;border-radius:48% 52% 46% 54%/52% 46% 54% 48%;background:radial-gradient(circle at 35% 30%,#ea6d87,#c2385a 60%,#962443);z-index:5;display:grid;place-items:center;color:#ffe3ea;font-size:18px;box-shadow:0 3px 6px rgba(90,20,35,.35),inset 0 -2px 4px rgba(0,0,0,.22);transition:opacity .25s}
+.env.open .seal{opacity:0}
+.env.open .flap{transform:perspective(900px) rotateX(180deg);z-index:1}
+.env.open .letter{transform:translateY(-62%)}
+.noanim .letter,.noanim .flap,.noanim .seal{transition:none!important}
+.tap{position:relative;z-index:1;margin-top:18px;font-size:13px;color:var(--muted);transition:opacity .4s}
+
+/* lá thư mở ra */
+.ov{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:20px 14px;background:rgba(243,188,203,.55);backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:opacity .5s,visibility 0s .5s;overflow:hidden}
+.ov.on{opacity:1;visibility:visible;transition:opacity .5s}
+.note{position:relative;width:min(560px,100%);max-height:calc(100dvh - 40px);overflow-y:auto;background:var(--paper);border-radius:16px;padding:24px 22px 18px;box-shadow:0 20px 50px rgba(120,30,60,.28);transform:scale(.92) translateY(24px);transition:transform .7s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column}
+.ov.on .note{transform:none}
+.typed{font-family:var(--f-hand);font-size:22px;line-height:32px;color:#7c2238;white-space:pre-wrap;min-height:200px;background-image:repeating-linear-gradient(to bottom,transparent 0 27px,#f3d3dc 27px 28px,transparent 28px 32px)}
+.sign{align-self:flex-end;font-family:var(--f-hand);font-size:24px;color:var(--rose);margin-top:8px;opacity:0;transition:opacity .6s}
+.btns{display:flex;gap:10px;justify-content:center;margin-top:16px;opacity:0;pointer-events:none;transition:opacity .4s}
+.show{opacity:1!important;pointer-events:auto!important}
+.btns button{font:600 14px var(--f-body);border-radius:999px;padding:9px 18px;cursor:pointer}
+.b1{border:0;background:#a3253f;color:#fff}
+.b2{border:1px solid #e6c3cf;background:#fff;color:#8a2442}
+.heart{position:absolute;bottom:-24px;color:#e2486c;animation:up 3.4s cubic-bezier(.4,0,.6,1) forwards;pointer-events:none}
+@keyframes up{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.15s!important}}
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<div class="top">
+  <div class="d">20 · 10 · 2026</div>
+  <h1>Gửi mẹ yêu của con</h1>
+</div>
+
+<button class="env" id="env" aria-label="Mở thư gửi mẹ">
+  <div class="env-back"></div>
+  <div class="letter"><span id="lto"></span></div>
+  <div class="env-front"></div>
+  <div class="flap"></div>
+  <div class="seal">♥</div>
+</button>
+<div class="tap" id="tap">Mẹ nhấn vào phong bì để mở thư nhé 💌</div>
+
+<div class="ov" id="ov" aria-hidden="true">
+  <div class="note" id="note">
+    <div class="typed" id="typed"></div>
+    <div class="sign" id="sign"></div>
+    <div class="btns" id="btns">
+      <button class="b2" id="again">↺ Đọc lại</button>
+      <button class="b1" id="close">Đóng thư</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== SỬA NỘI DUNG Ở ĐÂY ===== */
+const TO   = 'Mẹ yêu';          // hiện trên lá thư trong phong bì
+const FROM = 'Con của mẹ';      // chữ ký cuối thư
+const LETTER =
+`Mẹ ơi,
+
+Hôm nay là 20/10, con muốn dành vài dòng để nói với mẹ những điều con ít khi nói thành lời.
+
+Cảm ơn mẹ vì đã luôn ở bên con, lo cho con từng bữa ăn, từng giấc ngủ, và luôn là nơi con muốn trở về mỗi khi mệt mỏi.
+
+Con chúc mẹ luôn mạnh khỏe, vui vẻ và bớt lo nghĩ đi một chút. Mẹ nhớ dành thời gian chăm sóc cho bản thân nhiều hơn nữa nhé.
+
+Con yêu mẹ nhiều lắm!`;
+/* ============================== */
+
+(function(){
+  const $=s=>document.querySelector(s);
+  const env=$('#env'),ov=$('#ov'),note=$('#note'),typed=$('#typed'),sign=$('#sign'),btns=$('#btns'),tap=$('#tap');
+  $('#lto').textContent='Gửi '+TO;
+  let T=[];const later=(f,ms)=>T.push(setTimeout(f,ms));
+  const clear=()=>{T.forEach(clearTimeout);T=[];};
+
+  function hearts(n){
+    for(let i=0;i<n;i++)later(()=>{
+      const h=document.createElement('span');h.className='heart';h.textContent=['♥','❤','♡'][i%3];
+      h.style.left=(5+Math.random()*90)+'%';h.style.fontSize=(14+Math.random()*20)+'px';
+      ov.appendChild(h);setTimeout(()=>h.remove(),3500);
+    },i*140);
+  }
+  function type(txt,done){
+    typed.textContent='';const tn=document.createTextNode('');typed.appendChild(tn);let i=0;
+    (function step(){
+      if(i<txt.length){const c=txt[i++];tn.appendData(c);
+        note.scrollTop=note.scrollHeight;
+        later(step,c==='\n'?260:(c===','||c==='.')?200:40);}
+      else done();
+    })();
+  }
+  function play(){
+    clear();
+    sign.classList.remove('show');btns.classList.remove('show');typed.textContent='';
+    ov.classList.add('on');ov.setAttribute('aria-hidden','false');
+    hearts(16);
+    later(()=>type(LETTER,()=>{
+      sign.textContent='— '+FROM;sign.classList.add('show');
+      later(()=>{btns.classList.add('show');$('#close').focus();},500);
+    }),700);
+  }
+  env.addEventListener('click',()=>{
+    if(env.classList.contains('open')){play();return;}
+    env.classList.add('open');tap.style.opacity=0;
+    later(play,1700);
+  });
+  $('#again').addEventListener('click',play);
+  $('#close').addEventListener('click',()=>{
+    clear();ov.classList.remove('on');ov.setAttribute('aria-hidden','true');
+    tap.textContent='Nhấn vào phong bì để đọc lại thư 💌';tap.style.opacity=1;
+  });
+
+  /* nền hoa rơi */
+  const sky=$('#sky'),g=sky.getContext('2d');
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  let W,H,P=[];
+  const pinks=['#f7a8bb','#f48fa9','#ffc2d1','#f9b4c4','#e989a3'];
+  const mk=top=>{const r=Math.random(),k=r<.65?'petal':r<.9?'flower':'heart';
+    return{k,x:Math.random()*W,y:top?Math.random()*H:(k==='heart'?H+20:-20),
+      s:k==='petal'?6+Math.random()*7:k==='flower'?2.2+Math.random()*1.6:7+Math.random()*6,
+      vy:k==='heart'?-(.25+Math.random()*.35):.35+Math.random()*.7,
+      sw:Math.random()*6.28,sws:.008+Math.random()*.014,swa:.4+Math.random()*1.1,
+      rot:Math.random()*6.28,vr:(Math.random()-.5)*.03,
+      c:pinks[Math.floor(Math.random()*5)],a:.45+Math.random()*.45};};
+  function size(){const d=devicePixelRatio||1;W=innerWidth;H=innerHeight;
+    sky.width=W*d;sky.height=H*d;g.setTransform(d,0,0,d,0,0);
+    P=Array.from({length:Math.round(Math.min(80,Math.max(30,W*H/16000)))},()=>mk(true));}
+  function draw(p){
+    g.save();g.translate(p.x+Math.sin(p.sw)*p.swa*10,p.y);g.rotate(p.rot);g.globalAlpha=p.a;
+    if(p.k==='petal'){g.fillStyle=p.c;g.beginPath();g.ellipse(0,0,p.s*.55,p.s,0,0,6.28);g.fill();}
+    else if(p.k==='flower'){g.fillStyle='#fffdf2';
+      for(let i=0;i<5;i++){const a=i*1.2566;g.beginPath();g.arc(Math.cos(a)*p.s*1.4,Math.sin(a)*p.s*1.4,p.s,0,6.28);g.fill();}
+      g.fillStyle='#f3dfa0';g.beginPath();g.arc(0,0,p.s*.7,0,6.28);g.fill();}
+    else{const s=p.s;g.fillStyle='#e2486c';g.globalAlpha=p.a*.7;g.beginPath();g.moveTo(0,s*.3);
+      g.bezierCurveTo(-s,-s*.4,-s*.45,-s,0,-s*.45);g.bezierCurveTo(s*.45,-s,s,-s*.4,0,s*.3);g.fill();}
+    g.restore();
+  }
+  (function tick(){g.clearRect(0,0,W,H);
+    P.forEach((p,i)=>{p.y+=p.vy;p.sw+=p.sws;if(p.k!=='heart')p.rot+=p.vr;
+      if(p.y>H+30||p.y<-30)P[i]=mk(false);draw(p);});
+    requestAnimationFrame(tick);})();
+  addEventListener('resize',size);size();
+})();
+</script>
+</body>
+</html>
