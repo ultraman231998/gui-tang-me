@@ -20,25 +20,37 @@ body::before{content:"";position:fixed;inset:-25%;z-index:0;pointer-events:none;
 @keyframes glow{to{transform:translate(7%,5%) rotate(8deg)}}
 #sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 
+/* nút nhạc */
+.mus{position:fixed;top:14px;right:14px;z-index:20;display:flex;align-items:center;gap:6px;font:600 12px var(--f-body);border:1px solid #ecc9d4;background:#fff;color:#a3255a;border-radius:999px;padding:6px 12px 6px 10px;cursor:pointer;box-shadow:0 4px 12px rgba(160,40,80,.12)}
+.mus em{font-style:normal}
+.eq{display:flex;align-items:flex-end;gap:2px;height:11px}
+.eq u{display:block;width:2.5px;height:4px;background:var(--rose);border-radius:2px}
+.mus.on .eq u{animation:eq 1s ease-in-out infinite}
+.mus.on .eq u:nth-child(2){animation-delay:.2s}.mus.on .eq u:nth-child(3){animation-delay:.45s}
+@keyframes eq{0%,100%{height:3px}50%{height:11px}}
+
 .top{position:relative;z-index:1;text-align:center;margin-bottom:90px}
 .top .d{font-size:12px;letter-spacing:.3em;font-weight:700;color:var(--rose)}
 .top h1{margin:4px 0 0;font-family:var(--f-hand);font-size:clamp(32px,9vw,46px);line-height:1.1;color:#8a2442}
 
 /* phong bì */
 .env{position:relative;z-index:1;width:min(400px,86vw);aspect-ratio:3/2;cursor:pointer;border:0;padding:0;background:none;animation:nudge 2.6s ease-in-out infinite}
-.env.open{animation:none;cursor:default}
+.env.open,.env.busy{animation:none;cursor:default}
 .env:focus-visible{outline:3px solid var(--rose);outline-offset:6px;border-radius:10px}
 @keyframes nudge{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-3deg)}90%{transform:rotate(3deg)}95%{transform:rotate(-1.5deg)}}
 .env-back{position:absolute;inset:0;background:linear-gradient(160deg,#f2c3cf,#e6a9b9);border-radius:8px;box-shadow:0 18px 40px rgba(194,56,90,.25)}
-.letter{position:absolute;left:6%;right:6%;top:6%;height:88%;background:var(--paper);border-radius:6px;z-index:2;display:grid;justify-items:center;padding-top:9%;font-family:var(--f-hand);font-size:clamp(20px,5vw,28px);color:#a3304d;box-shadow:0 -4px 12px rgba(120,30,60,.12);transition:transform 1.1s cubic-bezier(.22,1,.36,1) .5s}
+.letter{position:absolute;left:6%;right:6%;top:6%;height:88%;background:var(--paper);border-radius:6px;z-index:2;display:grid;justify-items:center;padding-top:9%;font-family:var(--f-hand);font-size:clamp(20px,5vw,28px);color:#a3304d;box-shadow:0 -4px 12px rgba(120,30,60,.12);
+  transition:transform .8s cubic-bezier(.22,1,.36,1)}
 .env-front{position:absolute;inset:0;z-index:3;background:linear-gradient(0deg,#f6d3dc,#fff0f3);border-radius:8px;clip-path:polygon(0 0,50% 52%,100% 0,100% 100%,0 100%)}
 .env-front::after{content:"Hà Nội · 20.10";position:absolute;right:6%;bottom:8%;font:700 10px var(--f-body);letter-spacing:.12em;color:rgba(194,56,90,.55)}
-.flap{position:absolute;left:0;right:0;top:0;height:58%;background:linear-gradient(180deg,#f7d6de,#eab3c1);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transform:perspective(900px) rotateX(0);transition:transform .7s cubic-bezier(.45,0,.2,1) .1s,z-index 0s .45s;z-index:4}
-.seal{position:absolute;left:50%;top:52%;width:42px;height:42px;margin:-21px 0 0 -21px;border-radius:48% 52% 46% 54%/52% 46% 54% 48%;background:radial-gradient(circle at 35% 30%,#ea6d87,#c2385a 60%,#962443);z-index:5;display:grid;place-items:center;color:#ffe3ea;font-size:18px;box-shadow:0 3px 6px rgba(90,20,35,.35),inset 0 -2px 4px rgba(0,0,0,.22);transition:opacity .25s}
-.env.open .seal{opacity:0}
-.env.open .flap{transform:perspective(900px) rotateX(180deg);z-index:1}
-.env.open .letter{transform:translateY(-62%)}
-.noanim .letter,.noanim .flap,.noanim .seal{transition:none!important}
+.flap{position:absolute;left:0;right:0;top:0;height:58%;background:linear-gradient(180deg,#f7d6de,#eab3c1);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transform:perspective(900px) rotateX(0);z-index:4;
+  transition:transform .7s cubic-bezier(.45,0,.2,1) .6s,z-index 0s .95s}
+.seal{position:absolute;left:50%;top:52%;width:42px;height:42px;margin:-21px 0 0 -21px;border-radius:48% 52% 46% 54%/52% 46% 54% 48%;background:radial-gradient(circle at 35% 30%,#ea6d87,#c2385a 60%,#962443);z-index:5;display:grid;place-items:center;color:#ffe3ea;font-size:18px;box-shadow:0 3px 6px rgba(90,20,35,.35),inset 0 -2px 4px rgba(0,0,0,.22);
+  transition:opacity .3s 1.3s}
+/* trạng thái mở: thư trượt lên sau khi nắp mở */
+.env.open .seal{opacity:0;transition:opacity .25s}
+.env.open .flap{transform:perspective(900px) rotateX(180deg);z-index:1;transition:transform .7s cubic-bezier(.45,0,.2,1) .1s,z-index 0s .45s}
+.env.open .letter{transform:translateY(-62%);transition:transform 1.1s cubic-bezier(.22,1,.36,1) .5s}
 .tap{position:relative;z-index:1;margin-top:18px;font-size:13px;color:var(--muted);transition:opacity .4s}
 
 /* lá thư mở ra */
@@ -60,6 +72,8 @@ body::before{content:"";position:fixed;inset:-25%;z-index:0;pointer-events:none;
 </head>
 <body>
 <canvas id="sky" aria-hidden="true"></canvas>
+
+<button class="mus" id="mus" aria-pressed="false" aria-label="Bật hoặc tắt nhạc"><b class="eq"><u></u><u></u><u></u></b><em id="muslbl">Bật nhạc</em></button>
 
 <div class="top">
   <div class="d">20 · 10 · 2026</div>
@@ -127,7 +141,7 @@ Con yêu mẹ nhiều lắm!`;
   }
   function play(){
     clear();
-    sign.classList.remove('show');btns.classList.remove('show');typed.textContent='';
+    sign.classList.remove('show');btns.classList.remove('show');typed.textContent='';note.scrollTop=0;
     ov.classList.add('on');ov.setAttribute('aria-hidden','false');
     hearts(16);
     later(()=>type(LETTER,()=>{
@@ -135,18 +149,95 @@ Con yêu mẹ nhiều lắm!`;
       later(()=>{btns.classList.add('show');$('#close').focus();},500);
     }),700);
   }
+
+  /* mở phong bì */
   env.addEventListener('click',()=>{
-    if(env.classList.contains('open')){play();return;}
-    env.classList.add('open');tap.style.opacity=0;
+    if(env.classList.contains('open')||env.classList.contains('busy'))return;
+    env.classList.add('open','busy');tap.style.opacity=0;
+    later(chime,300);
     later(play,1700);
   });
   $('#again').addEventListener('click',play);
+
+  /* đóng thư: ẩn lá thư, cất thư vào phong bì, gập nắp lại */
   $('#close').addEventListener('click',()=>{
-    clear();ov.classList.remove('on');ov.setAttribute('aria-hidden','true');
-    tap.textContent='Nhấn vào phong bì để đọc lại thư 💌';tap.style.opacity=1;
+    clear();
+    ov.classList.remove('on');ov.setAttribute('aria-hidden','true');
+    later(()=>env.classList.remove('open'),450);
+    later(()=>{
+      env.classList.remove('busy');
+      tap.textContent='Nhấn vào phong bì để đọc lại thư 💌';tap.style.opacity=1;
+      env.focus();
+    },2200);
   });
 
-  /* nền hoa rơi */
+  /* ===== nhạc nền hộp nhạc ===== */
+  const M={ctx:null,master:null,bus:null,on:false,userOff:false,step:0,next:0,timer:null};
+  const mt=n=>440*Math.pow(2,(n-69)/12);
+  const PROG=[[48,0],[43,0],[45,1],[41,0]];
+  const ARP={0:[0,7,12,16,19,16,12,7],1:[0,7,12,15,19,15,12,7]};
+  const MEL=[76,79,76,74, 74,71,74,0, 72,76,81,79, 77,76,72,0, 76,79,84,83, 83,81,79,0, 76,81,79,76, 77,76,74,72];
+  function bell(f,t,dur,vol){
+    const c=M.ctx,gn=c.createGain();gn.gain.setValueAtTime(0.0001,t);
+    gn.gain.exponentialRampToValueAtTime(vol,t+0.012);gn.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    const o1=c.createOscillator(),o2=c.createOscillator(),g2=c.createGain();
+    o1.type='sine';o1.frequency.value=f;o2.type='sine';o2.frequency.value=f*3.01;g2.gain.value=0.12;
+    o1.connect(gn);o2.connect(g2).connect(gn);gn.connect(M.bus);
+    o1.start(t);o2.start(t);o1.stop(t+dur+0.05);o2.stop(t+dur+0.05);
+  }
+  function pad(root,minor,t,dur){
+    const c=M.ctx;[0,minor?3:4,7].forEach(iv=>{
+      const o=c.createOscillator(),gn=c.createGain();o.type='triangle';o.frequency.value=mt(root+12+iv);
+      gn.gain.setValueAtTime(0.0001,t);gn.gain.linearRampToValueAtTime(0.018,t+0.8);gn.gain.linearRampToValueAtTime(0.0001,t+dur);
+      o.connect(gn).connect(M.bus);o.start(t);o.stop(t+dur+0.1);});
+  }
+  function schedule(){
+    const E=60/68/2;
+    while(M.next<M.ctx.currentTime+0.35){
+      const st=M.step,bar=Math.floor(st/8)%8,[root,minor]=PROG[bar%4],t=M.next;
+      bell(mt(root+12+ARP[minor][st%8]),t,1.3,0.045);
+      if(st%8===0)pad(root,minor,t,E*8);
+      if(st%2===0){const n=MEL[bar*4+(st%8)/2];if(n)bell(mt(n),t,1.9,0.11);}
+      M.step++;M.next+=E;
+    }
+  }
+  function chime(){if(!M.ctx||!M.on)return;const t=M.ctx.currentTime+.02;[72,76,79,84,88].forEach((n,i)=>bell(mt(n),t+i*.09,2,.1));}
+  function initAudio(){
+    const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return false;
+    const c=M.ctx=new AC();M.master=c.createGain();M.master.gain.value=0.0001;M.master.connect(c.destination);
+    M.bus=c.createGain();const dry=c.createGain();dry.gain.value=0.75;
+    const rev=c.createConvolver(),len=c.sampleRate*2.6,ir=c.createBuffer(2,len,c.sampleRate);
+    for(let ch=0;ch<2;ch++){const d=ir.getChannelData(ch);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3);}
+    rev.buffer=ir;const wet=c.createGain();wet.gain.value=0.45;
+    M.bus.connect(dry).connect(M.master);M.bus.connect(rev).connect(wet).connect(M.master);
+    M.next=c.currentTime+0.1;return true;
+  }
+  const musBtn=$('#mus'),musLbl=$('#muslbl');
+  function musicOn(){
+    try{
+      if(!M.ctx&&!initAudio())return;
+      M.ctx.resume();M.on=true;
+      if(M.next<M.ctx.currentTime)M.next=M.ctx.currentTime+0.1;
+      if(!M.timer)M.timer=setInterval(schedule,90);
+      M.master.gain.cancelScheduledValues(M.ctx.currentTime);
+      M.master.gain.setValueAtTime(Math.max(M.master.gain.value,0.0001),M.ctx.currentTime);
+      M.master.gain.exponentialRampToValueAtTime(0.5,M.ctx.currentTime+2.5);
+      musBtn.classList.add('on');musBtn.setAttribute('aria-pressed','true');musLbl.textContent='Đang phát';
+    }catch(e){}
+  }
+  function musicOff(){
+    if(!M.ctx)return;M.on=false;
+    M.master.gain.cancelScheduledValues(M.ctx.currentTime);
+    M.master.gain.setValueAtTime(Math.max(M.master.gain.value,0.0001),M.ctx.currentTime);
+    M.master.gain.exponentialRampToValueAtTime(0.0001,M.ctx.currentTime+0.6);
+    setTimeout(()=>{if(!M.on){clearInterval(M.timer);M.timer=null;M.ctx.suspend();}},700);
+    musBtn.classList.remove('on');musBtn.setAttribute('aria-pressed','false');musLbl.textContent='Bật nhạc';
+  }
+  musBtn.addEventListener('click',e=>{e.stopPropagation();if(M.on){M.userOff=true;musicOff();}else{M.userOff=false;musicOn();}});
+  /* trình duyệt chỉ cho phát nhạc sau lần chạm đầu tiên, nên nhạc tự bật khi mẹ chạm vào trang */
+  document.addEventListener('pointerdown',e=>{if(e.target.closest('#mus'))return;if(!M.on&&!M.userOff&&!M.ctx)musicOn();},{once:true});
+
+  /* ===== nền hoa rơi ===== */
   const sky=$('#sky'),g=sky.getContext('2d');
   if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   let W,H,P=[];
